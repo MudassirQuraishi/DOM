@@ -58,7 +58,7 @@ function onSubmit(e){
 
 function delLi(e){
     if(e.target.classList.contains('delete')){
-        if(confirm('Are You Sure?')){
+        if(confirm('Are You Sure??')){
             var li = e.target.parentElement;
             const delValue = li.firstChild.nextSibling.nextSibling.textContent
 
