@@ -19,7 +19,7 @@ userList.addEventListener('click',function(e){
                 var li = e.target.parentElement;
                 //now we will fetch the unique id generated when we were creating the li element
                 const delValue = li.id
-                //Now we have to remove the li element from the DOM
+                //Now we have to remove the li element from the DOM, so that the element is deleted without refreshing the page
                 userList.removeChild(li);
                 //and we also have to remove the li element from the server
                 axios.delete(`https://crudcrud.com/api/7db807ea603e404a8e2f13c73dfd3ccf/userData/${delValue}`)
