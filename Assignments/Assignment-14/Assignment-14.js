@@ -31,13 +31,18 @@ userList.addEventListener('click',function(e){
     else if(targetElement.id==='editButton'){
         if(e.target.classList.contains('edit')){
             if(confirm('Are You Sure??')){
+                //we will fetch the li element to be edited
                 var li = e.target.parentElement;
+                //now we have to repopulate the form inputs with the data form the li that is to be edited
                 nameInput.value = li.firstChild.textContent;
                 emailInput.value = li.firstChild.nextSibling.nextSibling.textContent
                 phoneInput.value =li.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent
+                //after the data has been repopulated, we need to delete the element from the DOM and server
                 const delValue = li.id
                 userList.removeChild(li);
                 axios.delete(`https://crudcrud.com/api/7db807ea603e404a8e2f13c73dfd3ccf/userData/${delValue}`)
+                //Now that the data has been deleted form both DOM and server side,
+                //when the user submits the edited data, the data will be saved into the DOM and server
             }  
         }
 
