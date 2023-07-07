@@ -1,9 +1,10 @@
 let activity = ['Hello'];
 let lastSeen = new Date();
 const userActivity= async()=>{
+    let updatedTime;
     const updateUserActivity = new Promise((resolve, reject)=>{
         setTimeout(()=>{
-            let updatedTime= new Date();
+            updatedTime= new Date();
             resolve(updatedTime);
         },1000);
     });
@@ -11,26 +12,25 @@ const userActivity= async()=>{
         setTimeout(()=>{
             activity.push('Post Added');
             updateUserActivity;
-            resolve(updateUserActivity);
-        })
+            resolve(updateUserActivity.then((t)=> {return t}));
+        },2000)
     })
     const deleteActivity = new Promise((resolve, reject)=>{
+        setTimeout(()=>{
         if(activity.length>0){
             activity.pop()
             updateUserActivity;
-            resolve(updateUserActivity);
+            resolve(updateUserActivity.then((t)=>{ return t}));
         }
         else{
-            reject("No activity")
+            reject("No activity");
         }
+    },2000)
     });
-    let lastUpdatedTime = await addActivity;
-    let t = await updateUserActivity;
-    let d = await deleteActivity;
+    let add = await addActivity;
+    let del = await deleteActivity;
 
-    return lastUpdatedTime;
+    return updatedTime;
 }
-userActivity().then((t)=>{
-    console.log(lastSeen);
-    console.log(t);
-}).catch((err)=>console.log(err));
+console.log(lastSeen)
+userActivity().then((t)=>{ console.log(t) }).catch((err)=>{ console.log(err)});
