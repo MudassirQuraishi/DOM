@@ -66,4 +66,4 @@ function delLi(e){
             localStorage.removeItem(delValue);
         }  
     }
-};
+}
