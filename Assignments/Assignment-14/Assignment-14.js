@@ -16,7 +16,7 @@ userList.addEventListener('click',function(e){
                 var li = e.target.parentElement;
                 const delValue = li.id
                 userList.removeChild(li);
-                axios.delete(`https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData/${delValue}`)
+                axios.delete(`https://crudcrud.com/api/7db807ea603e404a8e2f13c73dfd3ccf/userData/${delValue}`)
             }  
         }
     }
@@ -29,7 +29,7 @@ userList.addEventListener('click',function(e){
                 phoneInput.value =li.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent
                 const delValue = li.id
                 userList.removeChild(li);
-                axios.delete(`https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData/${delValue}`)
+                axios.delete(`https://crudcrud.com/api/7db807ea603e404a8e2f13c73dfd3ccf/userData/${delValue}`)
             }  
         }
 
@@ -78,7 +78,7 @@ function onSubmit(e){
     }
 
 
-    axios.post("https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData",userDetails)
+    axios.post("https://crudcrud.com/api/7db807ea603e404a8e2f13c73dfd3ccf/userData",userDetails)
     .then((response) => {
         createLiElement(response.data);
     })
@@ -93,12 +93,20 @@ function onSubmit(e){
 }
 
 document.addEventListener('DOMContentLoaded', loadServerDetais);
-
+// Here i have added a fucntionality where all the server details will be loaded to the page form the server
 function loadServerDetais() {
-  axios.get("https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData").then((response) => {
-    for(let i = 0;i<response.data.length;i++) {
-        createLiElement(response.data[i])
-    }
+    axios.get("https://crudcrud.com/api/7db807ea603e404a8e2f13c73dfd3ccf/userData").then((response) => {
+        //We have to check whether there is any saved data in the database
+        let length = Object.keys(response.data).length    
+        //If there is no data in the server then we have to show that there are no appointments
+        if(length<1){
+            console.log('No Appointments at the time')
+        }
+        //If there is any data stored in the server then we will show the data in the webpage
+        for(let i = 0;i<response.data.length;i++) {
+            createLiElement(response.data[i])
+        }
+    
 })
 .catch((error) => {
     document.body.innerHTML= document.body.innerHTML+ "<h4> Something went wrong</h4>"
