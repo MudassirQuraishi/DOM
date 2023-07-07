@@ -107,8 +107,8 @@ function loadServerDetais() {
             createLiElement(response.data[i])
         }
     
-})
-.catch((error) => {
-    document.body.innerHTML= document.body.innerHTML+ "<h4> Something went wrong</h4>"
-});
+    })
+    .catch((error) => {
+        document.body.innerHTML= document.body.innerHTML+ "<h4> Something went wrong</h4>"
+    });
 }
