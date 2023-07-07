@@ -10,13 +10,21 @@ myForm.addEventListener('submit', onSubmit);
 userList.addEventListener('click',function(e){
     
     const targetElement = e.target;
+    //Since the Li element has both eidt and delete buttons attached to it, we have to check which button was clicked
+    //to return the required functionality
     if(targetElement.id==='deleteButton'){
         if(e.target.classList.contains('delete')){
             if(confirm('Are You Sure??')){
+                //We will fetch the li element which has to be deleted
                 var li = e.target.parentElement;
+                //now we will fetch the unique id generated when we were creating the li element
                 const delValue = li.id
+                //Now we have to remove the li element from the DOM
                 userList.removeChild(li);
+                //and we also have to remove the li element from the server
                 axios.delete(`https://crudcrud.com/api/7db807ea603e404a8e2f13c73dfd3ccf/userData/${delValue}`)
+                //Now the element has been deleted from both the server and the DOM,even when the page is reloaded, 
+                //no data will be showed
             }  
         }
     }
