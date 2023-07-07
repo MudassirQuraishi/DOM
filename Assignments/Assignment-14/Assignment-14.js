@@ -14,9 +14,9 @@ userList.addEventListener('click',function(e){
         if(e.target.classList.contains('delete')){
             if(confirm('Are You Sure??')){
                 var li = e.target.parentElement;
-                const delValue = li.firstChild.nextSibling.nextSibling.textContent
+                const delValue = li.id
                 userList.removeChild(li);
-                localStorage.removeItem(delValue);
+                axios.delete(`https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData/${delValue}`)
             }  
         }
     }
@@ -27,38 +27,16 @@ userList.addEventListener('click',function(e){
                 nameInput.value = li.firstChild.textContent;
                 emailInput.value = li.firstChild.nextSibling.nextSibling.textContent
                 phoneInput.value =li.firstChild.nextSibling.nextSibling.nextSibling.nextSibling.textContent
-                const delValue = li.firstChild.nextSibling.nextSibling.textContent
+                const delValue = li.id
                 userList.removeChild(li);
-                localStorage.removeItem(delValue);
+                axios.delete(`https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData/${delValue}`)
             }  
         }
 
     }
 });
 
-
-
-
-function onSubmit(e){
-    e.preventDefault();
-    //creating an object with user details
-    let userDetails ={};
-    userDetails.name = nameInput.value;
-    userDetails.email = emailInput.value;
-    userDetails.phone = phoneInput.value;
-
-    //converting the objects to a string to store in local storage
-    let userDetailsString = JSON.stringify(userDetails);
-
-    //storing the userdetails value with the users input as the key to avoid overriding of the data 
-    localStorage.setItem(userDetails.email,userDetailsString)
-
-    //resetting the form values to null after submit
-    nameInput.value = '';
-    emailInput.value = '';
-    phoneInput.value = '';
-
-    //creating a list element and appending it to the user list to display on the document
+function createLiElement(userDetails){
     const li = document.createElement('li');
 
     const name = document.createTextNode(userDetails.name );
@@ -66,7 +44,7 @@ function onSubmit(e){
     const phone = document.createTextNode(userDetails.phone);
     const hyphen1 = document.createTextNode('--');
     const hyphen2 = document.createTextNode('--');
-
+    li.id= userDetails._id;
     li.appendChild(name);
     li.appendChild(hyphen1);
     li.appendChild(email);
@@ -88,6 +66,41 @@ function onSubmit(e){
     li.appendChild(editBtn); 
     
     userList.appendChild(li);
-    
 }
 
+function onSubmit(e){
+    e.preventDefault();
+    //creating an object with user details
+    let userDetails ={
+        name :nameInput.value,
+        email : emailInput.value,
+        phone : phoneInput.value,
+    }
+
+
+    axios.post("https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData",userDetails)
+    .then((response) => {
+        createLiElement(response.data);
+    })
+    .catch((error) => {
+        document.body.innerHTML= document.body.innerHTML+ "<h4> Something went wrong</h4>"
+    });
+
+    
+    nameInput.value = '';
+    emailInput.value = '';
+    phoneInput.value = '';
+}
+
+document.addEventListener('DOMContentLoaded', loadServerDetais);
+
+function loadServerDetais() {
+  axios.get("https://crudcrud.com/api/314ea490107a48aaabd0c8bb4d6a2392/userData").then((response) => {
+    for(let i = 0;i<response.data.length;i++) {
+        createLiElement(response.data[i])
+    }
+})
+.catch((error) => {
+    document.body.innerHTML= document.body.innerHTML+ "<h4> Something went wrong</h4>"
+});
+}
